@@ -5,16 +5,11 @@ import zipfile
 import os
 from PIL import Image
 from io import BytesIO
-import dotenv
 
-# Load environment variables from .env file
-dotenv.load_dotenv()
-
-# Access environment variables
-WC_API_URL = os.environ.get('WC_API_URL')
-WC_CONSUMER_KEY = os.environ.get('WC_CONSUMER_KEY')
-WC_CONSUMER_SECRET = os.environ.get('WC_CONSUMER_SECRET')
-
+# Access secrets from Streamlit
+WC_API_URL = st.secrets["WC_API_URL"]
+WC_CONSUMER_KEY = st.secrets["WC_CONSUMER_KEY"]
+WC_CONSUMER_SECRET = st.secrets["WC_CONSUMER_SECRET"]
 
 # Initialize the WooCommerce API
 wcapi = API(
@@ -23,6 +18,7 @@ wcapi = API(
     consumer_secret=WC_CONSUMER_SECRET,
     version="wc/v3"
 )
+
 def fetch_product_images(product_id):
     """Fetch product images from WooCommerce using the product ID."""
     response = wcapi.get(f"products/{product_id}")
